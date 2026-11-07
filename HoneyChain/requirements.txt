@@ -1,0 +1,69 @@
+# ============================================================================
+# HoneyChain -- Python dependencies
+# SIH 2026, Problem Statement 26021
+#
+#   python -m venv .venv
+#   source .venv/bin/activate        (Windows: .venv\Scripts\activate)
+#   pip install -r requirements.txt
+# ============================================================================
+
+# ---- Core web service (required) -------------------------------------------
+Flask>=3.0,<4.0
+Werkzeug>=3.0,<4.0
+python-dotenv>=1.0
+
+# ---- Authentication (Phase 3) ----------------------------------------------
+# itsdangerous is already a transitive dependency of Flask (it signs Flask's
+# own session cookies), but honeychain.auth imports it directly for bearer
+# tokens, so it is pinned here explicitly rather than relied on implicitly --
+# a future Flask release dropping it as a dependency should not silently
+# break login.
+itsdangerous>=2.1
+
+# ---- Machine learning (required for anomaly detection) ---------------------
+# The app starts and runs without these: honeychain.ml degrades to the
+# deterministic rule engine. They are required to run train_model.py.
+numpy>=1.26
+# EXACT pin: models/isolation_forest.joblib is a pickle, which scikit-learn
+# only guarantees for the version that wrote it. honeychain.ml refuses to load
+# the artifact under any other version (it degrades to rules-only instead).
+# To upgrade: bump this pin, run `python train_model.py`, commit the new model
+# + model_metadata.json together.
+scikit-learn==1.9.1
+joblib>=1.3
+
+# ---- QR code generation (required for traceability) ------------------------
+qrcode>=7.4
+Pillow>=10.0
+# reportlab is a fallback QR backend used automatically when `qrcode` is not
+# importable (e.g. restricted/air-gapped installs). Optional but recommended.
+reportlab>=4.0
+
+# ---- Hardware simulator ----------------------------------------------------
+requests>=2.31
+
+# ---- Production WSGI server ------------------------------------------------
+# gevent is not optional for production: the SSE endpoint holds one long-lived
+# connection per dashboard tab, which would pin a whole sync worker each.
+gunicorn>=21.2 ; sys_platform != "win32"
+gevent>=23.9
+
+# ---- OPTIONAL: blockchain checkpoint anchoring -----------------------------
+# Only needed when HONEYCHAIN_CHAIN_ANCHOR=true (and to run
+# tests/test_phase6_live_chain.py, which skips with a reason without it).
+# The chain-event log, Merkle checkpoints and verification work without it.
+# Tested with web3 7.16.
+# web3>=6.11,<8
+
+# ---- OPTIONAL: Firebase Admin pull bridge ----------------------------------
+# Only needed when HONEYCHAIN_FIREBASE=true. The recommended Firebase path is
+# the authenticated push webhook, which needs no credentials on this host.
+# firebase-admin>=6.2
+
+# ---- OPTIONAL: offline research pipeline (research/) -----------------------
+# Not imported by the production service.
+# pandas>=2.1
+# matplotlib>=3.8
+# seaborn>=0.13
+# plotly>=5.18
+# streamlit>=1.30

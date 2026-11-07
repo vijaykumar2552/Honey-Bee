@@ -1,0 +1,371 @@
+{
+  "_source": "Captured from the real API on the DEMO seed (scripts/seed_demo.py); not invented.",
+  "trace": {
+    "batch_id": "HNY-2026-0001",
+    "blended_from": [],
+    "block_hash": "c2ebaf06b163c053f27b8bbdd3020dcf1550b8ebe0a85d03e322d0f1848f1ea9",
+    "block_index": 0,
+    "chain_events": [
+      {
+        "event_id": "EVT-9127BEA9F6FF7435",
+        "event_type": "BATCH_CREATED",
+        "seq": 1
+      },
+      {
+        "event_id": "EVT-E719A14E6AF33AD4",
+        "event_type": "CUSTODY_TRANSFERRED",
+        "seq": 2
+      },
+      {
+        "event_id": "EVT-69ACC87D7E5CADDF",
+        "event_type": "PROCESSING_RECORDED",
+        "seq": 3
+      },
+      {
+        "event_id": "EVT-BAB8CBB286C3C4F8",
+        "event_type": "LAB_RESULT_RECORDED",
+        "seq": 4
+      },
+      {
+        "event_id": "EVT-06AE8D5804D8C5E9",
+        "event_type": "PACKAGED",
+        "seq": 5
+      },
+      {
+        "event_id": "EVT-DDF3EC5BDA906A6E",
+        "event_type": "CUSTODY_TRANSFERRED",
+        "seq": 6
+      },
+      {
+        "event_id": "EVT-F51855CDB606DD8F",
+        "event_type": "SHIPPED",
+        "seq": 7
+      },
+      {
+        "event_id": "EVT-EE4C4DF46955AF3E",
+        "event_type": "CUSTODY_TRANSFERRED",
+        "seq": 8
+      },
+      {
+        "event_id": "EVT-EC9E64C06D5DB9F2",
+        "event_type": "RECEIVED",
+        "seq": 9
+      },
+      {
+        "event_id": "EVT-6798CBDC4A861933",
+        "event_type": "RETAIL_REGISTERED",
+        "seq": 10
+      }
+    ],
+    "custody": [
+      {
+        "batch_id": "HNY-2026-0001",
+        "from_organization_id": "ORG-DEMO-APIARY",
+        "initiated_at": "2026-10-03 16:11:22",
+        "quantity_kg": 24.0,
+        "resolved_at": "2026-10-03 16:11:22",
+        "status": "ACCEPTED",
+        "to_organization_id": "ORG-DEMO-PROCESSOR",
+        "transfer_id": "CUS-70FCD3DCA4E7"
+      },
+      {
+        "batch_id": "HNY-2026-0001",
+        "from_organization_id": "ORG-DEMO-PROCESSOR",
+        "initiated_at": "2026-10-03 16:11:22",
+        "quantity_kg": 20.5,
+        "resolved_at": "2026-10-03 16:11:22",
+        "status": "ACCEPTED",
+        "to_organization_id": "ORG-DEMO-LOGISTICS",
+        "transfer_id": "CUS-D094A3765EEC"
+      },
+      {
+        "batch_id": "HNY-2026-0001",
+        "from_organization_id": "ORG-DEMO-LOGISTICS",
+        "initiated_at": "2026-10-03 16:11:22",
+        "quantity_kg": 20.5,
+        "resolved_at": "2026-10-03 16:11:22",
+        "status": "ACCEPTED",
+        "to_organization_id": "ORG-DEMO-RETAIL",
+        "transfer_id": "CUS-290F36383A0B"
+      }
+    ],
+    "floral_type": "Eucalyptus",
+    "harvest_date": "2026-10-03",
+    "harvests": [
+      {
+        "event_hash": "9cd1f2c999c946a940b6f40c340e5704e34aab263a9880db679a03eed324a8bb",
+        "harvest_date": "2026-10-03",
+        "harvest_id": "HRV-2026-02F12312",
+        "hive_id": "HIVE-DEMO-01",
+        "organization_id": "ORG-DEMO-APIARY"
+      }
+    ],
+    "hive_id": "HIVE-DEMO-01",
+    "lab": {
+      "results": [
+        {
+          "acidity": null,
+          "batch_id": "HNY-2026-0001",
+          "c4_sugar_pct": 2.1,
+          "certificate_id": "DEMO-NOT-A-REAL-CERTIFICATE",
+          "certificate_url": null,
+          "colour": null,
+          "completed_at": "2026-10-03 16:11:22",
+          "created_at": "2026-10-03 16:11:22",
+          "hmf_mg_kg": 12.0,
+          "lab_organization_id": "ORG-DEMO-LAB",
+          "lab_result_id": "LAB-951F834914ED",
+          "moisture_pct": 17.8,
+          "pollen_analysis": null,
+          "result_hash": "6ca8ab6808999ec36bd6ebb19ebf2bc28d418e94fbd069e287e85fe4d4963e42",
+          "status": "PASSED",
+          "test_date": "2026-10-03",
+          "units": {
+            "acidity": "meq/kg",
+            "c4_sugar_pct": "%",
+            "hmf_mg_kg": "mg/kg",
+            "moisture_pct": "% w/w"
+          }
+        }
+      ],
+      "status": "PASSED"
+    },
+    "ledger_verified": true,
+    "processing": [
+      {
+        "created_at": "2026-10-03 16:11:22",
+        "input_batch_id": "HNY-2026-0001",
+        "input_kg": 24.0,
+        "output_batch_id": null,
+        "output_kg": 23.5,
+        "process_type": "FILTERING",
+        "processing_id": "PRC-A792958D3EDC"
+      }
+    ],
+    "recall": null,
+    "retail": [
+      {
+        "batch_id": "HNY-2026-0001",
+        "created_at": "2026-10-03 16:11:22",
+        "custody_transfer_id": "CUS-290F36383A0B",
+        "received_at": "2026-10-03 16:11:22",
+        "retail_record_id": "RTL-EBCE737E6D44",
+        "retailer_organization_id": "ORG-DEMO-RETAIL",
+        "shelved_at": "2026-10-03 16:11:22",
+        "shipment_id": "SHP-388726117595",
+        "status": "ON_SHELF"
+      }
+    ],
+    "shipments": [
+      {
+        "arrival_at": "2026-10-03 16:11:22",
+        "batch_id": "HNY-2026-0001",
+        "created_at": "2026-10-03 16:11:22",
+        "custody_transfer_id": "CUS-290F36383A0B",
+        "departure_at": "2026-10-03 16:11:22",
+        "destination": "Bengaluru",
+        "driver": null,
+        "from_organization_id": "ORG-DEMO-LOGISTICS",
+        "max_temperature_c": null,
+        "min_temperature_c": null,
+        "origin": "Kolar",
+        "shipment_id": "SHP-388726117595",
+        "status": "DELIVERED",
+        "to_organization_id": "ORG-DEMO-RETAIL",
+        "updated_at": "2026-10-03 16:11:22",
+        "vehicle": null
+      }
+    ],
+    "state": {
+      "holder_organization_id": "ORG-DEMO-RETAIL",
+      "origin_organization_id": "ORG-DEMO-APIARY",
+      "remaining_kg": 20.5,
+      "status": "ACTIVE"
+    },
+    "total_weight": 24.0
+  },
+  "units": [
+    {
+      "created_at": "2026-10-03 16:11:22",
+      "packaging_id": "PKG-673D54385681",
+      "status": "ACTIVATED",
+      "unit_id": "UNIT-AT46TCIRLQNXLDHG"
+    },
+    {
+      "created_at": "2026-10-03 16:11:22",
+      "packaging_id": "PKG-673D54385681",
+      "status": "ACTIVATED",
+      "unit_id": "UNIT-CQRN36VIW24EDZCN"
+    },
+    {
+      "created_at": "2026-10-03 16:11:22",
+      "packaging_id": "PKG-673D54385681",
+      "status": "ACTIVATED",
+      "unit_id": "UNIT-7RIBRFFH7AQNRZ2M"
+    },
+    {
+      "created_at": "2026-10-03 16:11:22",
+      "packaging_id": "PKG-673D54385681",
+      "status": "ACTIVATED",
+      "unit_id": "UNIT-TSBFUARZJFTYP5AL"
+    },
+    {
+      "created_at": "2026-10-03 16:11:22",
+      "packaging_id": "PKG-673D54385681",
+      "status": "ACTIVATED",
+      "unit_id": "UNIT-5WGRHSGI3O7P3L7V"
+    },
+    {
+      "created_at": "2026-10-03 16:11:22",
+      "packaging_id": "PKG-673D54385681",
+      "status": "ACTIVATED",
+      "unit_id": "UNIT-G7DRV5LVTR67WRX2"
+    }
+  ],
+  "telemetry": [
+    {
+      "anomaly_score": 0.197678,
+      "audio_frequency": 255.0,
+      "battery_level": null,
+      "data_origin": "SIMULATED",
+      "device_id": "DEV-AF5DDB4C5CF8",
+      "device_timestamp": "2026-10-03 16:11:21",
+      "health_status": "HEALTHY",
+      "hive_id": "HIVE-DEMO-01",
+      "hive_name": "DEMO hive",
+      "humidity": 61.0,
+      "location": "Kolar",
+      "ml_band": "NORMAL",
+      "model_version": "iforest-synthetic-21b08d806d4f",
+      "prediction": "HEALTHY",
+      "reason": "All monitored sensor values are inside the safe operating band",
+      "rule_status": "HEALTHY",
+      "sensor_flags": null,
+      "source": "RULE+ML",
+      "telemetry_id": 6,
+      "temperature": 34.65,
+      "timestamp": "2026-10-03 16:11:21",
+      "weight": 42.5
+    },
+    {
+      "anomaly_score": 0.197403,
+      "audio_frequency": 255.0,
+      "battery_level": null,
+      "data_origin": "SIMULATED",
+      "device_id": "DEV-AF5DDB4C5CF8",
+      "device_timestamp": "2026-10-03 16:11:21",
+      "health_status": "HEALTHY",
+      "hive_id": "HIVE-DEMO-01",
+      "hive_name": "DEMO hive",
+      "humidity": 61.0,
+      "location": "Kolar",
+      "ml_band": "NORMAL",
+      "model_version": "iforest-synthetic-21b08d806d4f",
+      "prediction": "HEALTHY",
+      "reason": "All monitored sensor values are inside the safe operating band",
+      "rule_status": "HEALTHY",
+      "sensor_flags": null,
+      "source": "RULE+ML",
+      "telemetry_id": 5,
+      "temperature": 34.6,
+      "timestamp": "2026-10-03 16:11:21",
+      "weight": 42.4
+    },
+    {
+      "anomaly_score": 0.198641,
+      "audio_frequency": 255.0,
+      "battery_level": null,
+      "data_origin": "SIMULATED",
+      "device_id": "DEV-AF5DDB4C5CF8",
+      "device_timestamp": "2026-10-03 16:11:21",
+      "health_status": "HEALTHY",
+      "hive_id": "HIVE-DEMO-01",
+      "hive_name": "DEMO hive",
+      "humidity": 61.0,
+      "location": "Kolar",
+      "ml_band": "NORMAL",
+      "model_version": "iforest-synthetic-21b08d806d4f",
+      "prediction": "HEALTHY",
+      "reason": "All monitored sensor values are inside the safe operating band",
+      "rule_status": "HEALTHY",
+      "sensor_flags": null,
+      "source": "RULE+ML",
+      "telemetry_id": 4,
+      "temperature": 34.55,
+      "timestamp": "2026-10-03 16:11:21",
+      "weight": 42.3
+    },
+    {
+      "anomaly_score": 0.197383,
+      "audio_frequency": 255.0,
+      "battery_level": null,
+      "data_origin": "SIMULATED",
+      "device_id": "DEV-AF5DDB4C5CF8",
+      "device_timestamp": "2026-10-03 16:11:21",
+      "health_status": "HEALTHY",
+      "hive_id": "HIVE-DEMO-01",
+      "hive_name": "DEMO hive",
+      "humidity": 61.0,
+      "location": "Kolar",
+      "ml_band": "NORMAL",
+      "model_version": "iforest-synthetic-21b08d806d4f",
+      "prediction": "HEALTHY",
+      "reason": "All monitored sensor values are inside the safe operating band",
+      "rule_status": "HEALTHY",
+      "sensor_flags": null,
+      "source": "RULE+ML",
+      "telemetry_id": 3,
+      "temperature": 34.5,
+      "timestamp": "2026-10-03 16:11:21",
+      "weight": 42.2
+    },
+    {
+      "anomaly_score": 0.198502,
+      "audio_frequency": 255.0,
+      "battery_level": null,
+      "data_origin": "SIMULATED",
+      "device_id": "DEV-AF5DDB4C5CF8",
+      "device_timestamp": "2026-10-03 16:11:21",
+      "health_status": "HEALTHY",
+      "hive_id": "HIVE-DEMO-01",
+      "hive_name": "DEMO hive",
+      "humidity": 61.0,
+      "location": "Kolar",
+      "ml_band": "NORMAL",
+      "model_version": "iforest-synthetic-21b08d806d4f",
+      "prediction": "HEALTHY",
+      "reason": "All monitored sensor values are inside the safe operating band",
+      "rule_status": "HEALTHY",
+      "sensor_flags": null,
+      "source": "RULE+ML",
+      "telemetry_id": 2,
+      "temperature": 34.449999999999996,
+      "timestamp": "2026-10-03 16:11:21",
+      "weight": 42.1
+    },
+    {
+      "anomaly_score": 0.196388,
+      "audio_frequency": 255.0,
+      "battery_level": null,
+      "data_origin": "SIMULATED",
+      "device_id": "DEV-AF5DDB4C5CF8",
+      "device_timestamp": "2026-10-03 16:11:21",
+      "health_status": "HEALTHY",
+      "hive_id": "HIVE-DEMO-01",
+      "hive_name": "DEMO hive",
+      "humidity": 61.0,
+      "location": "Kolar",
+      "ml_band": "NORMAL",
+      "model_version": "iforest-synthetic-21b08d806d4f",
+      "prediction": "HEALTHY",
+      "reason": "All monitored sensor values are inside the safe operating band",
+      "rule_status": "HEALTHY",
+      "sensor_flags": null,
+      "source": "RULE+ML",
+      "telemetry_id": 1,
+      "temperature": 34.4,
+      "timestamp": "2026-10-03 16:11:21",
+      "weight": 42.0
+    }
+  ]
+}

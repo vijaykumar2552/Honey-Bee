@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>HoneyChain product verification</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:40rem;margin:2rem auto;padding:0 1rem;color:#222}
+.banner{padding:1rem;border-radius:.5rem;font-weight:600}
+.AUTHENTIC{background:#e6f4ea}.INVALID,.REVOKED{background:#fde7e7}.RECALL{background:#fde7e7;margin-top:1rem}
+.note{font-size:.9rem;color:#555}pre{white-space:pre-wrap;background:#f6f6f6;padding:1rem;border-radius:.5rem}
+</style>
+</head>
+<body>
+<h1>HoneyChain product verification</h1>
+<div id="banner" class="banner">Checking this product code...</div>
+<div id="recall"></div>
+<p id="note" class="note"></p>
+<ul id="warnings"></ul>
+<pre id="details"></pre>
+<script>
+// The code is in the URL fragment (#...), which browsers never send to the
+// server in the page request. All output is written with textContent only,
+// so nothing in a response can ever be interpreted as markup.
+(function () {
+  var code = window.location.hash ? decodeURIComponent(window.location.hash.slice(1)) : "";
+  function set(id, text, cls) { var el = document.getElementById(id); el.textContent = text; if (cls) el.className = cls; }
+  fetch("/api/public/verify", {method: "POST", headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({qr: code})})
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      set("banner", d.result === "AUTHENTIC" ? "Authentic HoneyChain code"
+                  : d.result === "REVOKED" ? "Revoked label - do not trust" : "Not a valid HoneyChain code",
+          "banner " + d.result);
+      if (d.recall && d.recall.active) {
+        set("recall", "RECALL NOTICE: " + (d.recall.reason || "this product has been recalled") +
+            " - do not consume.", "banner RECALL");
+      }
+      set("note", d.authenticity_note || d.message || "");
+      var list = document.getElementById("warnings");
+      (d.warnings || []).forEach(function (w) { var li = document.createElement("li"); li.textContent = w; list.appendChild(li); });
+      if (d.provenance) { set("details", JSON.stringify({unit: d.unit, provenance: d.provenance}, null, 2)); }
+    })
+    .catch(function () { set("banner", "Verification service unavailable - product not verified", "banner INVALID"); });
+})();
+</script>
+</body>
+</html>

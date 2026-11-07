@@ -1,0 +1,67 @@
+{
+  "schema_version": 2,
+  "model_version": "iforest-synthetic-21b08d806d4f",
+  "model": "sklearn.ensemble.IsolationForest",
+  "purpose": "telemetry anomaly detection (NOT honey quality, NOT a disease diagnosis)",
+  "trained_at": "2026-09-30T01:57:05Z",
+  "feature_columns": [
+    "temperature",
+    "humidity",
+    "weight",
+    "audio_frequency"
+  ],
+  "hyperparameters": {
+    "contamination": 0.05,
+    "n_estimators": 200,
+    "random_state": 42,
+    "n_jobs": 1
+  },
+  "environment": {
+    "python": "3.12.3",
+    "scikit_learn": "1.9.1",
+    "numpy": "2.5.3",
+    "joblib": "1.6.0"
+  },
+  "artifact": {
+    "model_sha256": "21b08d806d4f8aeee13cbe3d95ba0071818a12f94fc6880393dbca5b751bb1f7",
+    "feature_columns_sha256": "c5cfcfab9a91f49ad482855f1d6d8a8336e84a4b247502d1f1776446d557d269"
+  },
+  "provenance": {
+    "data_source": "SYNTHETIC",
+    "real_world_data_used": false,
+    "generator": "train_model.py build_dataset(): seeded parametric distributions",
+    "seed": 42,
+    "dataset_csv": "data/synthetic_hive_telemetry.csv",
+    "dataset_sha256": "6041f50675688532ba704d145b2fa59096ab6686f903ba7a7834c65f2cc6393c",
+    "rows": 8421,
+    "normal": 8000,
+    "anomalous": 421,
+    "synthetic_anomaly_classes": [
+      "swarming",
+      "overwintering_heat_loss",
+      "varroa"
+    ]
+  },
+  "bands": {
+    "anomalous_below": 0.0,
+    "watch_below": 0.091409,
+    "derivation": "watch_below = 5% quantile of decision_function over NORMAL synthetic training readings; anomalous_below = the model's contamination boundary (decision_function < 0)"
+  },
+  "synthetic_evaluation": {
+    "data_source": "SYNTHETIC",
+    "disclaimer": "Measured on data drawn from the SAME synthetic generator used for training. These are NOT real-world accuracy figures and must not be presented as such.",
+    "training_fit": {
+      "recall": 0.9929,
+      "precision": 0.9929,
+      "false_alarm_rate_on_normal": 0.0004,
+      "false_negatives": 3
+    },
+    "held_out_detection_rate": {
+      "swarming": 1.0,
+      "overwintering_heat_loss": 1.0,
+      "varroa": 0.9525
+    },
+    "held_out_false_alarm_rate": 0.0005
+  },
+  "real_world_evaluation": null
+}

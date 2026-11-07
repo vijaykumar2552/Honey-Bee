@@ -1,0 +1,181 @@
+/* ==========================================================================
+   HoneyChain dashboard theme
+   Enterprise IoT dark theme layered on top of Bootstrap 5.
+   ========================================================================== */
+
+:root {
+    --hc-bg: #090d16;
+    --hc-surface: #111827;
+    --hc-surface-alt: #0f1622;
+    --hc-border: #1f2937;
+    --hc-amber: #f59e0b;
+    --hc-amber-glow: rgba(245, 158, 11, 0.15);
+    --hc-text: #f3f4f6;
+    --hc-text-muted: #9ca3af;
+    --hc-green: #10b981;
+    --hc-red: #ef4444;
+}
+
+body {
+    background-color: var(--hc-bg);
+    color: var(--hc-text);
+    font-family: 'Segoe UI', system-ui, -apple-system, "Helvetica Neue", sans-serif;
+    min-height: 100vh;
+}
+
+/* ---------- Layout chrome ---------- */
+.hc-header {
+    background-color: var(--hc-surface-alt);
+    border-bottom: 1px solid var(--hc-border);
+}
+
+.hc-divider-bottom { border-bottom: 1px solid var(--hc-border); }
+.hc-divider-top    { border-top: 1px solid var(--hc-border); }
+
+.hc-pill {
+    background-color: var(--hc-surface);
+    border: 1px solid var(--hc-border);
+    border-radius: 999px;
+    padding: 0.35rem 0.85rem;
+}
+
+.hc-icon {
+    background-color: rgba(255, 255, 255, 0.04);
+    border-radius: 0.75rem;
+    padding: 0.5rem;
+}
+
+.hc-badge-muted {
+    background-color: var(--hc-surface);
+    border: 1px solid var(--hc-border);
+    color: var(--hc-text-muted);
+    font-weight: 500;
+}
+
+/* ---------- Cards ---------- */
+.glass-card {
+    background: rgba(17, 24, 39, 0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--hc-border);
+    border-radius: 1rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.glass-card:hover {
+    border-color: rgba(245, 158, 11, 0.3);
+    box-shadow: 0 8px 24px var(--hc-amber-glow);
+}
+
+/* ---------- Status badges ---------- */
+.badge-healthy  { background-color: rgba(16, 185, 129, 0.18); color: #34d399; border: 1px solid var(--hc-green); }
+.badge-warning  { background-color: rgba(245, 158, 11, 0.18); color: #fbbf24; border: 1px solid var(--hc-amber); }
+.badge-critical { background-color: rgba(239, 68, 68, 0.18);  color: #f87171; border: 1px solid var(--hc-red); }
+.badge-unknown  { background-color: rgba(148, 163, 184, 0.15); color: #cbd5e1; border: 1px solid #475569; }
+
+/* CRITICAL pulse — a steady expanding halo, noticeable without strobing. */
+.pulse-critical {
+    animation: hc-pulse-red 1.6s ease-out infinite;
+}
+
+@keyframes hc-pulse-red {
+    0%   { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.65); }
+    70%  { box-shadow: 0 0 0 9px rgba(239, 68, 68, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+/* Respect users who have asked the OS to reduce motion. */
+@media (prefers-reduced-motion: reduce) {
+    .pulse-critical,
+    .hc-live-dot { animation: none; }
+    .pulse-critical { box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.75); }
+}
+
+/* ---------- Connection indicator ---------- */
+.hc-live-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    background-color: #6b7280;
+    box-shadow: 0 0 8px #6b7280;
+    transition: background-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.hc-live-dot.is-live {
+    background-color: var(--hc-green);
+    box-shadow: 0 0 8px var(--hc-green);
+    animation: hc-blink 2s infinite;
+}
+
+.hc-live-dot.is-polling {
+    background-color: var(--hc-amber);
+    box-shadow: 0 0 8px var(--hc-amber);
+}
+
+.hc-live-dot.is-down {
+    background-color: var(--hc-red);
+    box-shadow: 0 0 8px var(--hc-red);
+}
+
+@keyframes hc-blink {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.35; }
+}
+
+/* ---------- Tables ---------- */
+.table-dark-custom {
+    --bs-table-bg: transparent;
+    --bs-table-color: var(--hc-text);
+    --bs-table-border-color: var(--hc-border);
+}
+
+.table-dark-custom tbody tr {
+    border-bottom: 1px solid var(--hc-border);
+}
+
+.hc-mono {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 0.82rem;
+}
+
+/* ---------- Navigation ---------- */
+.nav-pills .nav-link {
+    color: var(--hc-text-muted);
+    border-radius: 0.5rem;
+    padding: 0.5rem 1.25rem;
+    transition: all 0.2s;
+}
+
+.nav-pills .nav-link.active {
+    background-color: var(--hc-amber);
+    color: #000;
+    font-weight: 600;
+}
+
+/* ---------- Forms ---------- */
+.hc-input,
+.hc-input:focus {
+    background-color: var(--hc-surface-alt);
+    border: 1px solid var(--hc-border);
+    color: var(--hc-text);
+}
+
+.hc-input:focus {
+    box-shadow: 0 0 0 0.2rem var(--hc-amber-glow);
+    border-color: var(--hc-amber);
+}
+
+.hc-list-item {
+    background-color: transparent;
+    color: var(--hc-text);
+    border-color: var(--hc-border);
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+/* ---------- Scrollbar ---------- */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--hc-bg); }
+::-webkit-scrollbar-thumb { background: #374151; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--hc-amber); }

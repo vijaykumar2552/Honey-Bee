@@ -1,0 +1,49 @@
+# Secrets — never commit
+.env
+.env.*
+!.env.example
+.env
+instance/
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+instance/*.db
+instance/*.db-journal
+instance/*.db-wal
+instance/*.db-shm
+instance/.dev-secrets.json
+*.egg-info/
+
+# Node
+node_modules/
+package-lock.json.bak
+
+# Hardhat
+blockchain/cache/
+blockchain/artifacts/
+
+# QR output (generated, not source)
+static/qrcodes/*.png
+
+# ML artifacts that are generated, not source-controlled by hand
+# (keep the committed baseline models/ files; ignore ad-hoc retraining output)
+*.joblib.tmp
+
+# Logs / caches
+*.log
+.pytest_cache/
+.mypy_cache/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Future frontend build output
+frontend/node_modules/
+frontend/dist/

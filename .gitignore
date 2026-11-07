@@ -1,0 +1,28 @@
+# Environment secrets
+**/.env
+**/.env.*
+!**/.env.example
+
+# Python environments
+**/.venv/
+**/venv/
+**/__pycache__/
+**/*.pyc
+
+# Node dependencies
+**/node_modules/
+
+# Build files
+**/dist/
+**/build/
+
+# IDE files
+.vscode/
+.idea/
+
+# Archives
+*.zip
+
+# OS files
+.DS_Store
+Thumbs.db

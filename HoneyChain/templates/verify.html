@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify honey batch {{ batch_id }} — HoneyChain</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        :root { --hc-bg: #0b1220; --hc-surface: #131c2e; --hc-border: #22304a; --hc-amber: #f59e0b; }
+        body {
+            background: linear-gradient(180deg, #0b1220 0%, #101a2c 100%);
+            color: #f3f4f6;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
+        }
+        .verify-shell { max-width: 640px; margin: 0 auto; padding: 1.25rem 1rem 3rem; }
+        .panel {
+            background: var(--hc-surface);
+            border: 1px solid var(--hc-border);
+            border-radius: 1rem;
+            padding: 1.25rem;
+        }
+        .verdict {
+            border-radius: 1rem;
+            padding: 1.75rem 1.25rem;
+            text-align: center;
+            border: 2px solid transparent;
+        }
+        .verdict-ok      { background: rgba(16,185,129,0.12); border-color: #10b981; color: #34d399; }
+        .verdict-bad     { background: rgba(239,68,68,0.12);  border-color: #ef4444; color: #f87171; }
+        .verdict-missing { background: rgba(148,163,184,0.10); border-color: #64748b; color: #cbd5e1; }
+        .verdict i { font-size: 2.75rem; display: block; margin-bottom: 0.65rem; }
+        .kv { display: flex; justify-content: space-between; gap: 1rem; padding: 0.6rem 0; border-bottom: 1px solid var(--hc-border); }
+        .kv:last-child { border-bottom: none; }
+        .kv span:first-child { color: #9ca3af; }
+        .kv span:last-child  { text-align: right; font-weight: 600; word-break: break-word; }
+        .hash {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            font-size: 0.74rem; word-break: break-all; color: #cbd5e1;
+            background: #0b1220; border: 1px solid var(--hc-border);
+            border-radius: 0.5rem; padding: 0.55rem 0.7rem; margin-top: 0.3rem;
+        }
+        .check-row { display: flex; gap: 0.65rem; align-items: flex-start; padding: 0.55rem 0; }
+        .metric-tile { background: #0b1220; border: 1px solid var(--hc-border); border-radius: 0.75rem; padding: 0.85rem; text-align: center; height: 100%; }
+        .metric-tile .value { font-size: 1.35rem; font-weight: 700; color: var(--hc-amber); }
+        .metric-tile .label { font-size: 0.73rem; color: #9ca3af; }
+        .qr-frame { background: #fff; border-radius: 0.75rem; padding: 0.6rem; display: inline-block; }
+        .qr-frame img { display: block; width: 150px; height: 150px; }
+        h1, h2 { letter-spacing: -0.01em; }
+        code { color: #fbbf24; }
+    </style>
+</head>
+<body>
+<div class="verify-shell">
+
+    <header class="text-center mb-4">
+        <i class="fa-solid fa-cubes-stacked text-warning fs-2"></i>
+        <h1 class="h4 fw-bold mt-2 mb-1">HoneyChain</h1>
+        <p class="text-secondary small mb-0">Independent authenticity check for this jar of honey</p>
+    </header>
+
+    {% if not found %}
+        <div class="verdict verdict-missing mb-4">
+            <i class="fa-solid fa-circle-question"></i>
+            <h2 class="h4 fw-bold mb-2">BATCH NOT FOUND</h2>
+            <p class="mb-0 small">{{ message }}</p>
+        </div>
+        <div class="panel">
+            <div class="kv"><span>Reference scanned</span><span>{{ batch_id }}</span></div>
+        </div>
+
+    {% elif verification.verified %}
+        <div class="verdict verdict-ok mb-4">
+            <i class="fa-solid fa-circle-check"></i>
+            <h2 class="h4 fw-bold mb-2">VERIFIED AUTHENTIC</h2>
+            <p class="mb-0 small">
+                This batch's record matches its cryptographic fingerprint and is correctly
+                linked into the HoneyChain ledger. It has not been altered since it was
+                registered.
+            </p>
+        </div>
+
+    {% else %}
+        <div class="verdict verdict-bad mb-4">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <h2 class="h4 fw-bold mb-2">TAMPERED — ALERT</h2>
+            <p class="mb-0 small">
+                This batch's stored record does <strong>not</strong> match its cryptographic
+                fingerprint. The data has been altered since registration. Do not treat this
+                product as verified.
+            </p>
+        </div>
+    {% endif %}
+
+    {% if found %}
+    <!-- ---------- Batch information ---------- -->
+    <section class="panel mb-3">
+        <h2 class="h6 fw-bold text-uppercase text-secondary mb-3">
+            <i class="fa-solid fa-jar me-2 text-warning"></i>Batch information
+        </h2>
+        <div class="kv"><span>Batch ID</span><span>{{ batch.batch_id }}</span></div>
+        <div class="kv"><span>Hive of origin</span><span>{{ batch.hive_id }}</span></div>
+        <div class="kv"><span>Harvest date</span><span>{{ batch.harvest_date }}</span></div>
+        <div class="kv"><span>Floral type</span><span>{{ batch.floral_type }}</span></div>
+        <div class="kv">
+            <span>Total batch weight</span>
+            <span>{% if batch.total_weight is not none %}{{ '%.2f'|format(batch.total_weight) }} kg{% else %}--{% endif %}</span>
+        </div>
+    </section>
+
+    <!-- ---------- Production health audit ---------- -->
+    <section class="panel mb-3">
+        <h2 class="h6 fw-bold text-uppercase text-secondary mb-3">
+            <i class="fa-solid fa-heart-pulse me-2 text-warning"></i>Production health audit
+        </h2>
+        <p class="small text-secondary">
+            Measured by the sensors inside hive <strong>{{ batch.hive_id }}</strong> across
+            {% if audit.readings_analysed %}{{ audit.readings_analysed }}{% else %}0{% endif %}
+            recorded readings. Anything not measured shows as <code>--</code>.
+        </p>
+        <div class="row g-2">
+            <div class="col-6 col-md-3">
+                <div class="metric-tile">
+                    <div class="value">{% if audit.avg_temperature is not none %}{{ '%.1f'|format(audit.avg_temperature) }}&deg;C{% else %}--{% endif %}</div>
+                    <div class="label">Average temperature</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="metric-tile">
+                    <div class="value">{% if audit.weight_stability is not none %}{{ '%.0f'|format(audit.weight_stability) }}%{% else %}--{% endif %}</div>
+                    <div class="label">Weight stability</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="metric-tile">
+                    <div class="value">{% if audit.production_health is not none %}{{ '%.0f'|format(audit.production_health) }}%{% else %}--{% endif %}</div>
+                    <div class="label">Production health</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="metric-tile">
+                    <div class="value">{% if batch.quality_score is not none %}{{ '%.1f'|format(batch.quality_score) }}{% else %}--{% endif %}</div>
+                    <div class="label">Quality score / 100</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ---------- Cryptographic proof ---------- -->
+    <section class="panel mb-3">
+        <h2 class="h6 fw-bold text-uppercase text-secondary mb-3">
+            <i class="fa-solid fa-fingerprint me-2 text-warning"></i>Cryptographic proof
+        </h2>
+        <p class="small text-secondary">
+            Every batch is sealed with a SHA-256 fingerprint of its own details plus the
+            fingerprint of the batch registered before it. Changing any earlier record breaks
+            every fingerprint that follows, which is what makes silent edits detectable.
+        </p>
+
+        <div class="kv"><span>Block number</span><span>#{{ verification.block_index }}</span></div>
+        <div class="kv"><span>Registered at (UTC)</span><span>{{ verification.timestamp }}</span></div>
+        <div class="kv"><span>Ledger height</span><span>{{ verification.chain_height }} block(s)</span></div>
+
+        <div class="mt-3">
+            <div class="small text-secondary">This batch's fingerprint</div>
+            <div class="hash">{{ verification.block_hash }}</div>
+        </div>
+        <div class="mt-2">
+            <div class="small text-secondary">Fingerprint recomputed just now</div>
+            <div class="hash">{{ verification.recomputed_hash }}</div>
+        </div>
+        <div class="mt-2">
+            <div class="small text-secondary">Previous block's fingerprint</div>
+            <div class="hash">{{ verification.previous_hash }}</div>
+        </div>
+
+        <h3 class="h6 fw-bold mt-4 mb-2">Verification chain</h3>
+        {% for check in verification.checks %}
+        <div class="check-row">
+            {% if check.passed %}
+                <i class="fa-solid fa-circle-check text-success mt-1"></i>
+            {% else %}
+                <i class="fa-solid fa-circle-xmark text-danger mt-1"></i>
+            {% endif %}
+            <div>
+                <div class="small">{{ check.label }}</div>
+                {% if not check.passed and check.broken_at_block is not none %}
+                    <div class="small text-danger">First broken at block #{{ check.broken_at_block }}</div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+
+        <div class="mt-3 p-3 rounded {% if verification.verified %}bg-success bg-opacity-10{% else %}bg-danger bg-opacity-10{% endif %}">
+            <strong class="{% if verification.verified %}text-success{% else %}text-danger{% endif %}">
+                Result: {{ verification.status }}
+            </strong>
+            <div class="small text-secondary mt-1">{{ verification.message }}</div>
+        </div>
+    </section>
+
+    {% if qr_static_path %}
+    <section class="panel mb-3 text-center">
+        <h2 class="h6 fw-bold text-uppercase text-secondary mb-3">
+            <i class="fa-solid fa-qrcode me-2 text-warning"></i>Batch QR code
+        </h2>
+        <div class="qr-frame">
+            <img src="{{ url_for('static', filename=qr_static_path) }}"
+                 alt="QR code linking to the verification page for batch {{ batch_id }}">
+        </div>
+        <p class="small text-secondary mt-3 mb-0">Scanning this code returns to this page.</p>
+    </section>
+    {% endif %}
+    {% endif %}
+
+    <footer class="text-center text-secondary small mt-4">
+        <p class="mb-1">
+            <a href="/api/verify/{{ batch_id }}" class="text-warning text-decoration-none">
+                View the raw verification data
+            </a>
+        </p>
+        <p class="mb-0">HoneyChain · SIH 2026 Problem Statement 26021</p>
+    </footer>
+</div>
+</body>
+</html>

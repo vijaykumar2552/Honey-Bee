@@ -1,0 +1,22 @@
+{
+  "name": "honeychain-contracts",
+  "version": "1.0.0",
+  "description": "HoneyChain on-chain registry — SIH 2026 PS 26021",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "node": "hardhat node",
+    "deploy:local": "hardhat run scripts/deploy.js --network localhost",
+    "deploy:sepolia": "hardhat run scripts/deploy.js --network sepolia",
+    "sync-abi": "node scripts/sync-abi.js",
+    "verify-abi": "python3 scripts/verify_abi.py"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "dotenv": "^16.4.5",
+    "hardhat": "^2.22.0",
+    "solc": "^0.8.24"
+  }
+}

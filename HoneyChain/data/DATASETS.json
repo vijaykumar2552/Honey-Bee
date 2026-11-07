@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "note": "Every file in data/ is declared here. REAL = measured from a physical hive (or derived only from such measurements); SYNTHETIC = generated. No dataset here contains ground-truth hive-health labels, so no real-world accuracy can be computed from it.",
+  "production_model_training_data": "synthetic_hive_telemetry.csv",
+  "datasets": {
+    "raw_data.txt": {
+      "data_source": "REAL",
+      "derived_from": null,
+      "description": "Raw ESP32 capture from ONE hive (inside/outside temperature and humidity), 3 Sept 2026. No weight, no audio, no health labels.",
+      "sha256": "2043489ce30136192697c5d070068a77f8a493d95d58f6225f74f9427fe2a630",
+      "has_ground_truth_health_labels": false
+    },
+    "hive_environment_raw.csv": {
+      "data_source": "REAL",
+      "derived_from": "raw_data.txt",
+      "produced_by": "research/pipeline/parse_raw.py",
+      "description": "Derived from data/raw_data.txt (a real single-hive capture). Contains no ground-truth health labels.",
+      "sha256": "04eef2dec9d08fd5613641a002d76a63b074edf37e7fd9318cc7a15a8e0e9742",
+      "has_ground_truth_health_labels": false
+    },
+    "hive_environment_clean.csv": {
+      "data_source": "REAL",
+      "derived_from": "hive_environment_raw.csv",
+      "produced_by": "research/pipeline/01_eda.py",
+      "description": "Derived from data/raw_data.txt (a real single-hive capture). Contains no ground-truth health labels.",
+      "sha256": "d2bcaba27c7d330ea5a350226768ce14769e8905f4211219b6d263b2eecd6d83",
+      "has_ground_truth_health_labels": false
+    },
+    "hive_features.csv": {
+      "data_source": "REAL",
+      "derived_from": "hive_environment_clean.csv",
+      "produced_by": "research/pipeline/02_feature_engineering.py",
+      "description": "Derived from data/raw_data.txt (a real single-hive capture). Contains no ground-truth health labels.",
+      "sha256": "51eb17564f758b77e6d849de219fed67194d489bff49c71dfc3dc93307b6cdb5",
+      "has_ground_truth_health_labels": false
+    },
+    "scored_train.csv": {
+      "data_source": "REAL",
+      "derived_from": "hive_features.csv",
+      "produced_by": "research/pipeline/04_health_score.py",
+      "description": "Derived from data/raw_data.txt (a real single-hive capture). Contains no ground-truth health labels. Scores are MODEL OUTPUTS (research pipeline), not labels.",
+      "sha256": "df574b1a5f384099b024a7d16384a2f5c998ab75c16636fc036ab9252902efec",
+      "has_ground_truth_health_labels": false
+    },
+    "scored_val.csv": {
+      "data_source": "REAL",
+      "derived_from": "hive_features.csv",
+      "produced_by": "research/pipeline/04_health_score.py",
+      "description": "Derived from data/raw_data.txt (a real single-hive capture). Contains no ground-truth health labels. Scores are MODEL OUTPUTS (research pipeline), not labels.",
+      "sha256": "67efdc1f8860ca5a9476373f270ab48ee5082f28bf39832732cfb387998e136b",
+      "has_ground_truth_health_labels": false
+    },
+    "scored_test.csv": {
+      "data_source": "REAL",
+      "derived_from": "hive_features.csv",
+      "produced_by": "research/pipeline/04_health_score.py",
+      "description": "Derived from data/raw_data.txt (a real single-hive capture). Contains no ground-truth health labels. Scores are MODEL OUTPUTS (research pipeline), not labels.",
+      "sha256": "6e3a10084c5ca970434ab60c7a34c5eb775a26bde0a997be352aa50749efc784",
+      "has_ground_truth_health_labels": false
+    },
+    "hive_health_scored.csv": {
+      "data_source": "REAL",
+      "derived_from": "hive_features.csv",
+      "produced_by": "research/pipeline/04_health_score.py",
+      "description": "Derived from data/raw_data.txt (a real single-hive capture). Contains no ground-truth health labels. Scores are MODEL OUTPUTS (research pipeline), not labels.",
+      "sha256": "705ef103fa20c3a0f6eaa6592f0b0f8ae703d75bfffeb8d6804bd79e4f195788",
+      "has_ground_truth_health_labels": false
+    },
+    "synthetic_hive_telemetry.csv": {
+      "data_source": "SYNTHETIC",
+      "derived_from": null,
+      "produced_by": "train_model.py (seeded; timestamps start at the artificial epoch 2000-01-01)",
+      "description": "The ONLY training data of the production IsolationForest. Anomaly classes are generated, not observed. is_anomaly is a generator label, not a real-world label.",
+      "sha256": "6041f50675688532ba704d145b2fa59096ab6686f903ba7a7834c65f2cc6393c",
+      "has_ground_truth_health_labels": false
+    }
+  }
+}

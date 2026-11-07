@@ -1,0 +1,338 @@
+{
+  "_source": "Captured from the real POST /api/public/verify (test fixtures, not invented).",
+  "authentic": {
+    "authenticity_note": "AUTHENTIC means this code was issued by HoneyChain for this specific unit and has not been revoked. It does not by itself mean the product is safe or of a particular quality; see the laboratory section and any recall notice.",
+    "provenance": {
+      "batch_id": "HNY-2026-0001",
+      "blended_from": [],
+      "blockchain": [
+        {
+          "anchored_on_chain": false,
+          "chain_id": null,
+          "event": "BATCH_CREATED",
+          "inclusion_proof_valid": null,
+          "status": "RECORDED_NOT_YET_ANCHORED",
+          "tx_hash": null
+        },
+        {
+          "anchored_on_chain": false,
+          "chain_id": null,
+          "event": "CUSTODY_TRANSFERRED",
+          "inclusion_proof_valid": null,
+          "status": "RECORDED_NOT_YET_ANCHORED",
+          "tx_hash": null
+        },
+        {
+          "anchored_on_chain": false,
+          "chain_id": null,
+          "event": "LAB_RESULT_RECORDED",
+          "inclusion_proof_valid": null,
+          "status": "RECORDED_NOT_YET_ANCHORED",
+          "tx_hash": null
+        },
+        {
+          "anchored_on_chain": false,
+          "chain_id": null,
+          "event": "PACKAGED",
+          "inclusion_proof_valid": null,
+          "status": "RECORDED_NOT_YET_ANCHORED",
+          "tx_hash": null
+        }
+      ],
+      "custody": [
+        {
+          "date": "2026-10-03",
+          "from": "BK",
+          "to": "PROC"
+        }
+      ],
+      "floral_type": "Flora-HIVE-A",
+      "harvest_date": "2026-10-03",
+      "harvests": [
+        {
+          "floral_source": "Flora-HIVE-A",
+          "harvest_date": "2026-10-03",
+          "hive": "HIVE-A",
+          "producer": "BK"
+        }
+      ],
+      "lab": {
+        "pending_tests": 0,
+        "results": [
+          {
+            "acidity_meq_kg": null,
+            "c4_sugar_pct": null,
+            "certificate_reference": null,
+            "hmf_mg_kg": 12.5,
+            "laboratory": "LAB",
+            "moisture_pct": 17.2,
+            "test_date": "2026-10-03",
+            "verdict": "PASSED"
+          }
+        ],
+        "status": "PASSED"
+      },
+      "ledger_record_intact": true,
+      "processing": [],
+      "retail": [],
+      "shipments": []
+    },
+    "recall": {
+      "active": false
+    },
+    "result": "AUTHENTIC",
+    "scan_signal": {
+      "note": "A risk signal from scan patterns, not proof of counterfeiting.",
+      "reasons": [],
+      "suspicious": false
+    },
+    "unit": {
+      "best_before": "2027-10-03",
+      "first_verified_at": "2026-10-03 02:08:04",
+      "packager": "PROC",
+      "packed_at": "2026-10-03 02:08:04",
+      "size_g": 500,
+      "status": "ISSUED",
+      "times_verified": 1,
+      "unit_id": "UNIT-ZV7HOFXVKTSMS6RO"
+    },
+    "warnings": []
+  },
+  "invalid_not_recognised": {
+    "message": "This code is not a valid HoneyChain product code. Treat this product as unverified and contact the seller.",
+    "reason": "NOT_RECOGNISED",
+    "result": "INVALID"
+  },
+  "invalid_malformed": {
+    "message": "This code is not a valid HoneyChain product code. Treat this product as unverified and contact the seller.",
+    "reason": "MALFORMED",
+    "result": "INVALID"
+  },
+  "invalid_unsupported_version": {
+    "message": "This code is not a valid HoneyChain product code. Treat this product as unverified and contact the seller.",
+    "reason": "UNSUPPORTED_VERSION",
+    "result": "INVALID"
+  },
+  "suspicious": {
+    "authenticity_note": "AUTHENTIC means this code was issued by HoneyChain for this specific unit and has not been revoked. It does not by itself mean the product is safe or of a particular quality; see the laboratory section and any recall notice.",
+    "provenance": {
+      "batch_id": "HNY-2026-0001",
+      "blended_from": [],
+      "blockchain": [
+        {
+          "anchored_on_chain": false,
+          "chain_id": null,
+          "event": "BATCH_CREATED",
+          "inclusion_proof_valid": null,
+          "status": "RECORDED_NOT_YET_ANCHORED",
+          "tx_hash": null
+        },
+        {
+          "anchored_on_chain": false,
+          "chain_id": null,
+          "event": "CUSTODY_TRANSFERRED",
+          "inclusion_proof_valid": null,
+          "status": "RECORDED_NOT_YET_ANCHORED",
+          "tx_hash": null
+        },
+        {
+          "anchored_on_chain": false,
+          "chain_id": null,
+          "event": "LAB_RESULT_RECORDED",
+          "inclusion_proof_valid": null,
+          "status": "RECORDED_NOT_YET_ANCHORED",
+          "tx_hash": null
+        },
+        {
+          "anchored_on_chain": false,
+          "chain_id": null,
+          "event": "PACKAGED",
+          "inclusion_proof_valid": null,
+          "status": "RECORDED_NOT_YET_ANCHORED",
+          "tx_hash": null
+        }
+      ],
+      "custody": [
+        {
+          "date": "2026-10-03",
+          "from": "BK",
+          "to": "PROC"
+        }
+      ],
+      "floral_type": "Flora-HIVE-A",
+      "harvest_date": "2026-10-03",
+      "harvests": [
+        {
+          "floral_source": "Flora-HIVE-A",
+          "harvest_date": "2026-10-03",
+          "hive": "HIVE-A",
+          "producer": "BK"
+        }
+      ],
+      "lab": {
+        "pending_tests": 0,
+        "results": [
+          {
+            "acidity_meq_kg": null,
+            "c4_sugar_pct": null,
+            "certificate_reference": null,
+            "hmf_mg_kg": 12.5,
+            "laboratory": "LAB",
+            "moisture_pct": 17.2,
+            "test_date": "2026-10-03",
+            "verdict": "PASSED"
+          }
+        ],
+        "status": "PASSED"
+      },
+      "ledger_record_intact": true,
+      "processing": [],
+      "retail": [],
+      "shipments": []
+    },
+    "recall": {
+      "active": false
+    },
+    "result": "AUTHENTIC",
+    "scan_signal": {
+      "note": "A risk signal from scan patterns, not proof of counterfeiting.",
+      "reasons": [
+        "This code was verified 3 times in the last 24 hours, which is unusual for a single jar and can indicate a copied label."
+      ],
+      "suspicious": true
+    },
+    "unit": {
+      "best_before": "2027-10-03",
+      "first_verified_at": "2026-10-03 02:08:04",
+      "packager": "PROC",
+      "packed_at": "2026-10-03 02:08:04",
+      "size_g": 500,
+      "status": "ISSUED",
+      "times_verified": 3,
+      "unit_id": "UNIT-P2NRQIC7XHNWRS2Q"
+    },
+    "warnings": [
+      "SUSPICIOUS ACTIVITY DETECTED: This code was verified 3 times in the last 24 hours, which is unusual for a single jar and can indicate a copied label."
+    ]
+  },
+  "recalled": {
+    "authenticity_note": "AUTHENTIC means this code was issued by HoneyChain for this specific unit and has not been revoked. It does not by itself mean the product is safe or of a particular quality; see the laboratory section and any recall notice.",
+    "provenance": {
+      "batch_id": "HNY-2026-0001",
+      "blended_from": [],
+      "blockchain": [
+        {
+          "anchored_on_chain": false,
+          "chain_id": null,
+          "event": "BATCH_CREATED",
+          "inclusion_proof_valid": null,
+          "status": "RECORDED_NOT_YET_ANCHORED",
+          "tx_hash": null
+        },
+        {
+          "anchored_on_chain": false,
+          "chain_id": null,
+          "event": "CUSTODY_TRANSFERRED",
+          "inclusion_proof_valid": null,
+          "status": "RECORDED_NOT_YET_ANCHORED",
+          "tx_hash": null
+        },
+        {
+          "anchored_on_chain": false,
+          "chain_id": null,
+          "event": "LAB_RESULT_RECORDED",
+          "inclusion_proof_valid": null,
+          "status": "RECORDED_NOT_YET_ANCHORED",
+          "tx_hash": null
+        },
+        {
+          "anchored_on_chain": false,
+          "chain_id": null,
+          "event": "PACKAGED",
+          "inclusion_proof_valid": null,
+          "status": "RECORDED_NOT_YET_ANCHORED",
+          "tx_hash": null
+        },
+        {
+          "anchored_on_chain": false,
+          "chain_id": null,
+          "event": "RECALLED",
+          "inclusion_proof_valid": null,
+          "status": "RECORDED_NOT_YET_ANCHORED",
+          "tx_hash": null
+        }
+      ],
+      "custody": [
+        {
+          "date": "2026-10-03",
+          "from": "BK",
+          "to": "PROC"
+        }
+      ],
+      "floral_type": "Flora-HIVE-A",
+      "harvest_date": "2026-10-03",
+      "harvests": [
+        {
+          "floral_source": "Flora-HIVE-A",
+          "harvest_date": "2026-10-03",
+          "hive": "HIVE-A",
+          "producer": "BK"
+        }
+      ],
+      "lab": {
+        "pending_tests": 0,
+        "results": [
+          {
+            "acidity_meq_kg": null,
+            "c4_sugar_pct": null,
+            "certificate_reference": null,
+            "hmf_mg_kg": 12.5,
+            "laboratory": "LAB",
+            "moisture_pct": 17.2,
+            "test_date": "2026-10-03",
+            "verdict": "PASSED"
+          }
+        ],
+        "status": "PASSED"
+      },
+      "ledger_record_intact": true,
+      "processing": [],
+      "retail": [],
+      "shipments": []
+    },
+    "recall": {
+      "active": true,
+      "issued_at": "2026-10-03 02:08:04",
+      "reason": "Antibiotic residue found"
+    },
+    "result": "AUTHENTIC",
+    "scan_signal": {
+      "note": "A risk signal from scan patterns, not proof of counterfeiting.",
+      "reasons": [],
+      "suspicious": false
+    },
+    "unit": {
+      "best_before": "2027-10-03",
+      "first_verified_at": "2026-10-03 02:08:04",
+      "packager": "PROC",
+      "packed_at": "2026-10-03 02:08:04",
+      "size_g": 500,
+      "status": "RECALLED",
+      "times_verified": 2,
+      "unit_id": "UNIT-ZV7HOFXVKTSMS6RO"
+    },
+    "warnings": [
+      "RECALLED: do not consume. See the recall notice."
+    ]
+  },
+  "revoked_with_recall": {
+    "message": "This label was revoked by its packager and must not be trusted.",
+    "recall": {
+      "active": true,
+      "issued_at": "2026-10-03 02:08:04",
+      "reason": "Antibiotic residue found"
+    },
+    "result": "REVOKED",
+    "unit_id": "UNIT-NLPR2GYR454ODZNU"
+  }
+}

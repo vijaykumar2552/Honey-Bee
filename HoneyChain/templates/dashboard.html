@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HoneyChain — Smart Hive Telemetry &amp; Traceability</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/honeychain.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body class="d-flex flex-column">
+
+<header class="hc-header sticky-top">
+    <div class="container-fluid px-4 py-3 d-flex justify-content-between align-items-center flex-wrap gap-3">
+        <div class="d-flex align-items-center gap-3">
+            <i class="fa-solid fa-cubes-stacked text-warning fs-3"></i>
+            <h1 class="h4 mb-0 fw-bold">
+                HoneyChain
+                <span class="fs-6 text-warning fw-normal">v{{ version }}</span>
+            </h1>
+        </div>
+
+        <div class="d-flex align-items-center gap-3 flex-wrap">
+            <div class="d-flex align-items-center gap-2 hc-pill">
+                <span class="hc-live-dot" id="live-dot"></span>
+                <span class="small text-secondary" id="connection-status">Connecting…</span>
+            </div>
+            <span class="hc-pill small text-secondary">
+                <i class="fa-solid fa-database me-1"></i>SQLite&nbsp;WAL
+            </span>
+            <span class="hc-pill small text-secondary">
+                <i class="fa-solid fa-microchip me-1"></i><span id="ml-engine-label">ML: checking…</span>
+            </span>
+        </div>
+    </div>
+</header>
+
+<main class="container-fluid px-4 py-4 flex-grow-1">
+
+    <div class="d-flex justify-content-between align-items-center mb-4 hc-divider-bottom pb-3 flex-wrap gap-3">
+        <ul class="nav nav-pills gap-2" role="tablist">
+            <li class="nav-item">
+                <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#view-overview" type="button">
+                    <i class="fa-solid fa-chart-line me-2"></i>Real-time Monitoring
+                </button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="pill" data-bs-target="#view-harvest" type="button">
+                    <i class="fa-solid fa-boxes-packing me-2"></i>Harvest &amp; QR Ledger
+                </button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="pill" data-bs-target="#view-ml" type="button">
+                    <i class="fa-solid fa-brain me-2"></i>ML Health Predictor
+                </button>
+            </li>
+        </ul>
+
+        <div class="d-flex gap-2">
+            <button class="btn btn-sm btn-outline-light rounded-pill px-3" id="btn-refresh">
+                <i class="fa-solid fa-rotate me-1"></i> Refresh
+            </button>
+            <button class="btn btn-sm btn-warning rounded-pill px-3 fw-semibold"
+                    data-bs-toggle="modal" data-bs-target="#harvestModal">
+                <i class="fa-solid fa-plus me-1"></i> Register Batch
+            </button>
+        </div>
+    </div>
+
+    <div class="tab-content">
+
+        <!-- ============ TAB 1: REAL-TIME MONITORING ============ -->
+        <div class="tab-pane fade show active" id="view-overview" role="tabpanel">
+
+            <div class="row g-3 mb-4">
+                <div class="col-12 col-sm-6 col-xl-3">
+                    <div class="glass-card p-3 h-100">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <span class="text-secondary small fw-medium text-uppercase">Active Hives</span>
+                                <h3 class="fw-bold mb-0 mt-1" id="card-total-hives">--</h3>
+                            </div>
+                            <div class="hc-icon text-warning"><i class="fa-solid fa-cubes fs-4"></i></div>
+                        </div>
+                        <div class="mt-3 small text-secondary">Hives that have reported telemetry</div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-xl-3">
+                    <div class="glass-card p-3 h-100">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <span class="text-secondary small fw-medium text-uppercase">Avg Temperature</span>
+                                <h3 class="fw-bold mb-0 mt-1" id="card-avg-temp">--</h3>
+                            </div>
+                            <div class="hc-icon text-danger"><i class="fa-solid fa-temperature-half fs-4"></i></div>
+                        </div>
+                        <div class="mt-3 small text-secondary">Safe band: <span class="text-light">30.0 – 38.0 °C</span></div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-xl-3">
+                    <div class="glass-card p-3 h-100">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <span class="text-secondary small fw-medium text-uppercase">Avg Hive Weight</span>
+                                <h3 class="fw-bold mb-0 mt-1" id="card-avg-weight">--</h3>
+                            </div>
+                            <div class="hc-icon text-info"><i class="fa-solid fa-weight-scale fs-4"></i></div>
+                        </div>
+                        <div class="mt-3 small text-secondary">Critical floor: <span class="text-light">&lt; 5.0 kg</span></div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-xl-3">
+                    <div class="glass-card p-3 h-100">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <span class="text-secondary small fw-medium text-uppercase">Overall System Health</span>
+                                <h3 class="fw-bold mb-0 mt-1" id="card-health-score">--</h3>
+                            </div>
+                            <div class="hc-icon text-success"><i class="fa-solid fa-heart-pulse fs-4"></i></div>
+                        </div>
+                        <div class="mt-3 small text-secondary">Share of evaluations classified HEALTHY</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="critical-banner" class="alert alert-danger d-none align-items-center gap-2 pulse-critical" role="alert">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <span id="critical-banner-text"></span>
+            </div>
+
+            <div class="row g-4 mb-4">
+                <div class="col-12 col-xl-8">
+                    <div class="glass-card p-4 h-100">
+                        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                            <h5 class="fw-bold mb-0"><i class="fa-solid fa-chart-area me-2 text-warning"></i>Live Environmental Trends</h5>
+                            <div class="btn-group btn-group-sm" role="group" id="metric-toggle">
+                                <button type="button" class="btn btn-outline-secondary active" data-metric="temperature">Temp</button>
+                                <button type="button" class="btn btn-outline-secondary" data-metric="humidity">Humidity</button>
+                                <button type="button" class="btn btn-outline-secondary" data-metric="weight">Weight</button>
+                                <button type="button" class="btn btn-outline-secondary" data-metric="audio_frequency">Acoustic</button>
+                            </div>
+                        </div>
+                        <div style="height: 300px; position: relative;">
+                            <canvas id="realtimeChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-xl-4">
+                    <div class="glass-card p-4 h-100">
+                        <h5 class="fw-bold mb-3"><i class="fa-solid fa-shield-halved me-2 text-warning"></i>Risk Classification</h5>
+                        <div style="height: 230px; position: relative;">
+                            <canvas id="riskDistributionChart"></canvas>
+                        </div>
+                        <div class="d-flex justify-content-around mt-3 text-center hc-divider-top pt-2 small">
+                            <div><span class="text-success">●</span> Healthy <strong id="legend-healthy">--</strong></div>
+                            <div><span class="text-warning">●</span> Warning <strong id="legend-warning">--</strong></div>
+                            <div><span class="text-danger">●</span> Critical <strong id="legend-critical">--</strong></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                    <h5 class="fw-bold mb-0"><i class="fa-solid fa-list me-2 text-warning"></i>Latest Incoming Telemetry</h5>
+                    <span class="badge hc-badge-muted" id="record-count">0 records</span>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-dark-custom align-middle mb-0">
+                        <thead>
+                            <tr class="text-secondary small text-uppercase hc-divider-bottom">
+                                <th>Hive ID</th><th>Timestamp (UTC)</th><th>Temperature</th>
+                                <th>Humidity</th><th>Weight</th><th>Acoustic</th>
+                                <th>Battery</th><th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="telemetry-table-body">
+                            <tr><td colspan="8" class="text-center text-secondary py-4">
+                                Waiting for incoming telemetry…
+                            </td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ TAB 2: HARVEST & QR LEDGER ============ -->
+        <div class="tab-pane fade" id="view-harvest" role="tabpanel">
+            <div class="glass-card p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                    <h5 class="fw-bold mb-0"><i class="fa-solid fa-qrcode me-2 text-warning"></i>Registered Honey Batches</h5>
+                    <span class="badge hc-badge-muted" id="chain-status">Chain: --</span>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-dark-custom align-middle mb-0">
+                        <thead>
+                            <tr class="text-secondary small text-uppercase hc-divider-bottom">
+                                <th>#</th><th>Batch ID</th><th>Harvest Date</th><th>Hive</th>
+                                <th>Weight</th><th>Quality</th><th>Block Hash</th><th>QR</th>
+                            </tr>
+                        </thead>
+                        <tbody id="harvest-table-body">
+                            <tr><td colspan="8" class="text-center text-secondary py-4">
+                                No batches recorded yet. Use “Register Batch” to mint the first block.
+                            </td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ TAB 3: ML HEALTH PREDICTOR ============ -->
+        <div class="tab-pane fade" id="view-ml" role="tabpanel">
+            <div class="row g-4">
+                <div class="col-12 col-lg-6">
+                    <div class="glass-card p-4 h-100">
+                        <h5 class="fw-bold mb-3"><i class="fa-solid fa-microchip me-2 text-warning"></i>Anomaly Detector Status</h5>
+                        <ul class="list-group list-group-flush bg-transparent" id="ml-status-list">
+                            <li class="list-group-item hc-list-item">Loading model status…</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-6">
+                    <div class="glass-card p-4 h-100">
+                        <h5 class="fw-bold mb-3"><i class="fa-solid fa-sliders me-2 text-warning"></i>Deterministic Safety Rules</h5>
+                        <p class="small text-secondary">
+                            These thresholds are evaluated on every reading and are never overridden by
+                            the model. The detector can only escalate a verdict, never soften one.
+                        </p>
+                        <div class="d-flex flex-column gap-2 small">
+                            <div class="d-flex justify-content-between"><span>CRITICAL — temperature</span><span class="text-danger">&lt; 30.0 °C or &gt; 38.0 °C</span></div>
+                            <div class="d-flex justify-content-between"><span>CRITICAL — hive weight</span><span class="text-danger">&lt; 5.0 kg</span></div>
+                            <div class="d-flex justify-content-between"><span>CRITICAL — sudden weight loss</span><span class="text-danger">≥ 2.0 kg / 60 s</span></div>
+                            <div class="d-flex justify-content-between"><span>WARNING — humidity</span><span class="text-warning">&lt; 40 % or &gt; 85 %</span></div>
+                            <div class="d-flex justify-content-between"><span>HEALTHY</span><span class="text-success">all rules satisfied</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="glass-card p-4">
+                        <h5 class="fw-bold mb-3"><i class="fa-solid fa-flask-vial me-2 text-warning"></i>Training Provenance</h5>
+                        <p class="small text-secondary mb-3">
+                            <strong>Synthetic evaluation only &mdash; not real-world accuracy.</strong>
+                            Measured on data drawn from the same synthetic generator used for training,
+                            read from <code>models/model_metadata.json</code>. No labelled real-world hive
+                            data has been evaluated yet. If the model has not been trained these show as
+                            <code>--</code>.
+                        </p>
+                        <div class="row g-3" id="ml-metrics"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<!-- Register harvest modal -->
+<div class="modal fade" id="harvestModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content glass-card text-light">
+            <div class="modal-header hc-divider-bottom">
+                <h5 class="modal-title fw-bold"><i class="fa-solid fa-box-archive me-2 text-warning"></i>Register Honey Harvest</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label text-secondary small" for="harvestHiveId">Hive source</label>
+                    <select class="form-select hc-input" id="harvestHiveId"></select>
+                    <div class="form-text text-secondary">
+                        Only hives with recorded telemetry can be harvested — the quality score is
+                        derived from their measurements.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label text-secondary small" for="harvestBatchId">Batch ID <span class="text-secondary">(optional)</span></label>
+                    <input type="text" class="form-control hc-input" id="harvestBatchId" placeholder="auto-generated, e.g. HNY-2026-0001">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label text-secondary small" for="harvestDate">Harvest date</label>
+                    <input type="date" class="form-control hc-input" id="harvestDate">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label text-secondary small" for="harvestWeight">Total weight extracted (kg)</label>
+                    <input type="number" step="0.1" min="0.1" class="form-control hc-input" id="harvestWeight" value="12.5">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label text-secondary small" for="harvestFloral">Floral source</label>
+                    <input type="text" class="form-control hc-input" id="harvestFloral" value="Wildflower / Acacia blend">
+                </div>
+                <div id="harvest-feedback" class="small"></div>
+            </div>
+            <div class="modal-footer hc-divider-top">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-warning fw-semibold" id="btn-submit-harvest">
+                    Commit to ledger &amp; generate QR
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="text-center text-secondary small py-4">
+    HoneyChain — SIH 2026 Problem Statement 26021 · Blockchain-based honey traceability
+    and smart beekeeping management
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>
